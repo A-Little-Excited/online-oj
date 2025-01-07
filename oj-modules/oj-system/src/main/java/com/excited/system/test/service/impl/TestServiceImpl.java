@@ -1,8 +1,9 @@
-package com.excited.system.test.service;
+package com.excited.system.test.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.excited.system.test.domain.TestDomain;
 import com.excited.system.test.mapper.TestMapper;
+import com.excited.system.test.service.ITestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
