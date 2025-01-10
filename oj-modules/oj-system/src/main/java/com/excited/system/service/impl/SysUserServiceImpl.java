@@ -21,20 +21,12 @@ public class SysUserServiceImpl implements ISysUserService {
         SysUser sysUser = sysUserMapper.selectOne(queryWrapper.select(SysUser::getPassword)
                 .eq(SysUser::getUserAccount, userAccount));
 
-        R<Void> loginResult = new R<>();
         if (sysUser == null) {
-            loginResult.setCode(ResultCode.FAILED_USER_EXISTS.getCode());
-            loginResult.setMsg(ResultCode.FAILED_USER_EXISTS.getMsg());
-            return loginResult;
+            return R.fail(ResultCode.FAILED_USER_NOT_EXISTS);
         }
         if (!sysUser.getPassword().equals(password)) {
-            loginResult.setCode(ResultCode.FAILED_LOGIN.getCode());
-            loginResult.setMsg(ResultCode.FAILED_LOGIN.getMsg());
-            return loginResult;
+            return R.fail(ResultCode.FAILED_LOGIN);
         }
-
-        loginResult.setCode(ResultCode.SUCCESS.getCode());
-        loginResult.setMsg(ResultCode.SUCCESS.getMsg());
-        return loginResult;
+        return R.ok();
     }
 }
