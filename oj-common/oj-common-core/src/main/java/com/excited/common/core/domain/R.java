@@ -40,7 +40,7 @@ public class R<T> {
         R<T> result = new R<>();
         result.setData(data);
         result.setCode(resultCode.getCode());
-        result.setMsg(result.getMsg());
+        result.setMsg(resultCode.getMsg());
         return result;
     }
 }

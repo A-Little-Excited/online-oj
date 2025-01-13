@@ -34,6 +34,12 @@
             <artifactId>oj-common-core</artifactId>
             <version>${oj-common-core.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.excited</groupId>
+            <artifactId>oj-common-security</artifactId>
+            <version>${oj-common-security.version}</version>
+        </dependency>
     </dependencies>
 
 </project>
