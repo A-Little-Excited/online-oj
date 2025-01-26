@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: oj-gateway
+  profiles:
+    active: local
+  cloud:
+    nacos:
+      discovery:
+        namespace: 24cee524-a6df-4eeb-862e-df895083976d
+        server-addr: http://localhost:8848
+      config:
+        namespace: 24cee524-a6df-4eeb-862e-df895083976d
+        server-addr: http://localhost:8848
+        file-extension: yaml

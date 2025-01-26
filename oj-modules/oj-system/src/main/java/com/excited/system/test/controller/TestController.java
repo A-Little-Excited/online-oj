@@ -1,6 +1,7 @@
 package com.excited.system.test.controller;
 
-import com.excited.system.test.domain.TestDomain;
+import com.excited.common.redis.service.RedisService;
+import com.excited.system.domain.SysUser;
 import com.excited.system.test.service.ITestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,9 @@ public class TestController {
     @Autowired
     private ITestService testService;
 
+    @Autowired
+    private RedisService redisService;
+
     @GetMapping("/list")
     public List<?> list() {
         return testService.list();
@@ -24,5 +28,14 @@ public class TestController {
     @GetMapping("/add")
     public String add() {
         return testService.add();
+    }
+
+    @GetMapping("/redisTest")
+    public String redisTest() {
+        SysUser sysUser = new SysUser();
+        sysUser.setUserAccount("redisTest");
+        redisService.setCacheObject("u", sysUser);
+
+        return redisService.getCacheObject("u", SysUser.class).toString();
     }
 }

@@ -3,13 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>oj-common</artifactId>
+        <artifactId>online-oj</artifactId>
         <groupId>com.excited</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>oj-common-security</artifactId>
+    <artifactId>oj-gateway</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -17,28 +17,25 @@
     </properties>
 
     <dependencies>
+        <!-- SpringCloud Gateway -->
         <dependency>
-            <groupId>com.excited</groupId>
-            <artifactId>oj-common-core</artifactId>
-            <version>${oj-common-core.version}</version>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
-
+        <!-- SpringCloud Loadbalancer -->
         <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>${jwt.version}</version>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
-
-        <!--  由于 jwt 版本和 SpringBoot 版本原因, 缺少该类, 需要引入该类依赖  -->
+        <!-- SpringCloud Alibaba Nacos -->
         <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>${jaxb-api.version}</version>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
-
+        <!-- SpringCloud Alibaba Nacos Config -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
     </dependencies>
 </project>
