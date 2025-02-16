@@ -1,4 +1,4 @@
-package com.excited.common.security;
+package com.excited.common.security.handler;
 
 import com.excited.common.core.domain.R;
 import com.excited.common.core.enums.ResultCode;

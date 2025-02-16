@@ -1,1 +1,2 @@
-com.excited.common.security.GlobalExceptionHandler
+com.excited.common.security.handler.GlobalExceptionHandler
+com.excited.common.security.service.JwtService
