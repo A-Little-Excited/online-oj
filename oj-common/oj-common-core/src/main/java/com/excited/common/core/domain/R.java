@@ -36,11 +36,24 @@ public class R<T> {
         return assembleResult(null, resultCode);
     }
 
+    // 由于令牌校验处需要传入自定义错误信息, 因此需要重写一个非固定 msg 的方法
+    public static <T> R<T> fail(int code, String msg) {
+        return assembleResult(null, code, msg);
+    }
+
     private static <T> R<T> assembleResult(T data, ResultCode resultCode) {
         R<T> result = new R<>();
         result.setData(data);
         result.setCode(resultCode.getCode());
         result.setMsg(resultCode.getMsg());
+        return result;
+    }
+
+    private static <T> R<T> assembleResult(T data, int code, String msg) {
+        R<T> result = new R<>();
+        result.setData(data);
+        result.setCode(code);
+        result.setMsg(msg);
         return result;
     }
 }

@@ -1,10 +1,10 @@
 package com.excited.common.security.utils;
 
+import com.excited.common.core.constants.JwtConstants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class JwtUtils {
@@ -37,5 +37,24 @@ public class JwtUtils {
                 .parseClaimsJws(token)
                 .getBody();
         return claims;
+    }
+
+    public static String getUserId(Claims claims) {
+        Object userId = claims.get(JwtConstants.LOGIN_USER_ID);
+
+        return toStr(userId);
+    }
+
+    public static String getUserKey(Claims claims) {
+        Object userKey = claims.get(JwtConstants.LOGIN_USER_KEY);
+
+        return toStr(userKey);
+    }
+
+    private static String toStr(Object value) {
+        if(value == null) {
+            return "";
+        }
+        return value.toString();
     }
 }
