@@ -1,4 +1,4 @@
-package com.excited.system.domain;
+package com.excited.system.domain.dto;
 
 import lombok.Getter;
 import lombok.Setter;

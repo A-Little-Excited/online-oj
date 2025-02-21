@@ -1,9 +1,11 @@
 package com.excited.system.test.controller;
 
 import com.excited.common.redis.service.RedisService;
-import com.excited.system.domain.SysUser;
+import com.excited.system.domain.dto.ValidationDTO;
+import com.excited.system.domain.entity.SysUser;
 import com.excited.system.test.service.ITestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,5 +39,10 @@ public class TestController {
         redisService.setCacheObject("u", sysUser);
 
         return redisService.getCacheObject("u", SysUser.class).toString();
+    }
+
+    @GetMapping("/validation")
+    public String validation(@Validated ValidationDTO validationDTO) {
+        return "参数校验测试";
     }
 }
