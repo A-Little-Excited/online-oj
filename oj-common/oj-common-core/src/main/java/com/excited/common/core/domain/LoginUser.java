@@ -1,4 +1,4 @@
-package com.excited.common.security.domain;
+package com.excited.common.core.domain;
 
 import lombok.Getter;
 import lombok.Setter;

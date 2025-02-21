@@ -1,2 +1,4 @@
 com.excited.common.security.handler.GlobalExceptionHandler
 com.excited.common.security.service.JwtService
+com.excited.common.security.interceptor.JwtInterceptor
+com.excited.common.security.config.WebMvcConfig

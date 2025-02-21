@@ -1,5 +1,7 @@
 package com.excited.common.redis.config;
 
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +13,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * 将自定义序列化器配置到 Redis 中
  */
 @Configuration
+@AutoConfigureBefore(RedisAutoConfiguration.class)
 public class RedisConfig extends CachingConfigurerSupport {
 
     // 初始化 RedisTemplate 对象, 后续将使用该对象操作 Redis

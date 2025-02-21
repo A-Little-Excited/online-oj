@@ -1,4 +1,4 @@
-package com.excited.common.security.utils;
+package com.excited.common.core.utils;
 
 import com.excited.common.core.constants.JwtConstants;
 import io.jsonwebtoken.Claims;

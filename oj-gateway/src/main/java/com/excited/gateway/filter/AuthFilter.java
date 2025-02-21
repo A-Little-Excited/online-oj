@@ -1,15 +1,16 @@
-package com.excited.gateway;
+package com.excited.gateway.filter;
 
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.excited.common.core.constants.CacheConstants;
 import com.excited.common.core.constants.HttpConstants;
+import com.excited.common.core.domain.LoginUser;
 import com.excited.common.core.domain.R;
 import com.excited.common.core.enums.ResultCode;
 import com.excited.common.core.enums.UserIdentity;
+import com.excited.common.core.utils.JwtUtils;
 import com.excited.common.redis.service.RedisService;
-import com.excited.common.security.domain.LoginUser;
-import com.excited.common.security.utils.JwtUtils;
+import com.excited.gateway.properties.IgnoreWhiteProperties;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
