@@ -1,4 +1,4 @@
-package com.excited.common.core.domain;
+package com.excited.common.core.domain.entity;
 
 import com.excited.common.core.enums.ResultCode;
 import lombok.Getter;

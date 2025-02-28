@@ -3,7 +3,7 @@ package com.excited.system.domain.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.excited.common.core.domain.BaseEntity;
+import com.excited.common.core.domain.entity.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,4 +20,6 @@ public class SysUser extends BaseEntity {
     private String userAccount;
 
     private String password;
+
+    private String nickName;
 }

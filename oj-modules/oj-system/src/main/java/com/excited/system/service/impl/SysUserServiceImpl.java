@@ -1,8 +1,12 @@
 package com.excited.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.excited.common.core.domain.R;
+import com.excited.common.core.constants.HttpConstants;
+import com.excited.common.core.domain.entity.LoginUser;
+import com.excited.common.core.domain.entity.R;
+import com.excited.common.core.domain.vo.LoginUserVO;
 import com.excited.common.core.enums.ResultCode;
 import com.excited.common.core.enums.UserIdentity;
 import com.excited.common.security.exception.ServiceException;
@@ -36,7 +40,7 @@ public class SysUserServiceImpl implements ISysUserService {
     public R<String> login(String userAccount, String password) {
         LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
         SysUser sysUser = sysUserMapper
-                .selectOne(queryWrapper.select(SysUser::getUserId, SysUser::getPassword)
+                .selectOne(queryWrapper.select(SysUser::getUserId, SysUser::getPassword, SysUser::getNickName)
                 .eq(SysUser::getUserAccount, userAccount));
 
         if (sysUser == null) {
@@ -47,7 +51,32 @@ public class SysUserServiceImpl implements ISysUserService {
         }
 
         return R.ok(jwtService.createToken(sysUser.getUserId(), secret,
-                UserIdentity.ADMIN.getValue()));
+                UserIdentity.ADMIN.getValue(), sysUser.getNickName()));
+    }
+
+    @Override
+    public boolean logout(String token) {
+        // 如果前端存放 Jwt 时设置了前缀, 则需要裁剪掉前缀
+        if (StrUtil.isNotEmpty(token) && token.startsWith(HttpConstants.JWT_PREFIX)) {
+            token = token.replaceFirst(HttpConstants.JWT_PREFIX, StrUtil.EMPTY);
+        }
+        return jwtService.deleteLoginUser(token, secret);
+    }
+
+    @Override
+    public R<LoginUserVO> info(String token) {
+        // 如果前端存放 Jwt 时设置了前缀, 则需要裁剪掉前缀
+        if (StrUtil.isNotEmpty(token) && token.startsWith(HttpConstants.JWT_PREFIX)) {
+            token = token.replaceFirst(HttpConstants.JWT_PREFIX, StrUtil.EMPTY);
+        }
+
+        LoginUser loginUser = jwtService.getLoginUser(token, secret);
+        if (loginUser == null) {
+            return R.fail();
+        }
+        LoginUserVO loginUserVO = new LoginUserVO();
+        loginUserVO.setNickName(loginUser.getNickName());
+        return R.ok(loginUserVO);
     }
 
     @Override

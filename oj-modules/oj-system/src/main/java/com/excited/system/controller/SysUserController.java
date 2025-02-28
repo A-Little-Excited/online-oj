@@ -1,7 +1,9 @@
 package com.excited.system.controller;
 
+import com.excited.common.core.constants.HttpConstants;
 import com.excited.common.core.controller.BaseController;
-import com.excited.common.core.domain.R;
+import com.excited.common.core.domain.entity.R;
+import com.excited.common.core.domain.vo.LoginUserVO;
 import com.excited.system.domain.dto.LoginDTO;
 import com.excited.system.domain.dto.SysUserSaveDTO;
 import com.excited.system.domain.vo.SysUserVO;
@@ -33,6 +35,17 @@ public class SysUserController extends BaseController {
         return sysUserService.login(loginDTO.getUserAccount(), loginDTO.getPassword());
     }
 
+    @DeleteMapping("/logout")
+    @Operation(summary = "退出登录", description = "管理员退出登录")
+    @ApiResponse(responseCode = "1000", description = "操作成功")
+    @ApiResponse(responseCode = "2000", description = "服务繁忙, 请稍后重试")
+    @Parameters(value = {
+            @Parameter(name = "token", in = ParameterIn.HEADER, description = "鉴权令牌")
+    })
+    public R<Void> logout(@RequestHeader(HttpConstants.AUTHORIZATION) String token) {
+        return toR(sysUserService.logout(token));
+    }
+
     @PostMapping("/add")
     @Operation(summary = "新增管理员", description = "根据所提供的信息新增管理员")
     @ApiResponse(responseCode = "1000", description = "操作成功")
@@ -40,6 +53,17 @@ public class SysUserController extends BaseController {
     @ApiResponse(responseCode = "3101", description = "用户已存在")
     public R<Void> add(@RequestBody SysUserSaveDTO sysUserSaveDTO) {
         return toR(sysUserService.add(sysUserSaveDTO));
+    }
+
+    @GetMapping("/info")
+    @Operation(summary = "获取管理员信息", description = "根据 token 获取管理员信息")
+    @ApiResponse(responseCode = "1000", description = "操作成功")
+    @ApiResponse(responseCode = "2000", description = "服务繁忙, 请稍后重试")
+    @Parameters(value = {
+            @Parameter(name = "token", in = ParameterIn.HEADER, description = "鉴权令牌")
+    })
+    public R<LoginUserVO> info(@RequestHeader(HttpConstants.AUTHORIZATION) String token) {
+        return sysUserService.info(token);
     }
 
     @DeleteMapping("/{userId}")

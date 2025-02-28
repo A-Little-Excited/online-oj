@@ -1,4 +1,4 @@
-package com.excited.common.core.domain;
+package com.excited.common.core.domain.entity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,4 +11,6 @@ import lombok.Setter;
 public class LoginUser {
 
     private Integer identity; // 1-普通用户, 2-管理员
+
+    private String nickName; // 用户昵称
 }

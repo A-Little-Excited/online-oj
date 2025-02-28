@@ -1,6 +1,6 @@
 package com.excited.common.core.controller;
 
-import com.excited.common.core.domain.R;
+import com.excited.common.core.domain.entity.R;
 
 public class BaseController {
 

@@ -2,7 +2,7 @@ package com.excited.common.security.handler;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import com.excited.common.core.domain.R;
+import com.excited.common.core.domain.entity.R;
 import com.excited.common.core.enums.ResultCode;
 import com.excited.common.security.exception.ServiceException;
 import jakarta.servlet.http.HttpServletRequest;
