@@ -1,8 +1,8 @@
 package com.excited.system.test.controller;
 
 import com.excited.common.redis.service.RedisService;
-import com.excited.system.domain.dto.ValidationDTO;
-import com.excited.system.domain.entity.SysUser;
+import com.excited.system.domain.sysUser.dto.ValidationDTO;
+import com.excited.system.domain.sysUser.entity.SysUser;
 import com.excited.system.test.service.ITestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;

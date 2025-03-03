@@ -1,4 +1,4 @@
-package com.excited.system.domain.entity;
+package com.excited.system.domain.sysUser.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

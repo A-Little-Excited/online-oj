@@ -1,4 +1,4 @@
-package com.excited.system.domain.vo;
+package com.excited.system.domain.sysUser.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -6,11 +6,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SysUserVO {
+public class SysUserSaveDTO {
 
     @Schema(description = "管理员账号")
     private String userAccount;
 
-    @Schema(description = "管理员用户昵称")
-    private String nickname;
+    @Schema(description = "管理员密码")
+    private String password;
 }

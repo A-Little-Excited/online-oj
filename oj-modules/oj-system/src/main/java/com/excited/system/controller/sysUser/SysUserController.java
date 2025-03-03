@@ -1,12 +1,12 @@
-package com.excited.system.controller;
+package com.excited.system.controller.sysUser;
 
 import com.excited.common.core.constants.HttpConstants;
 import com.excited.common.core.controller.BaseController;
 import com.excited.common.core.domain.entity.R;
 import com.excited.common.core.domain.vo.LoginUserVO;
-import com.excited.system.domain.dto.LoginDTO;
-import com.excited.system.domain.dto.SysUserSaveDTO;
-import com.excited.system.domain.vo.SysUserVO;
+import com.excited.system.domain.sysUser.dto.LoginDTO;
+import com.excited.system.domain.sysUser.dto.SysUserSaveDTO;
+import com.excited.system.domain.sysUser.vo.SysUserVO;
 import com.excited.system.service.ISysUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

@@ -92,7 +92,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
         boolean isLogin = redisService.hasKey(redisKey);
         if (!isLogin) {
             // 用户敏感信息过期说明 token 也应该过期
-            return unauthorizedResponse(exchange, "登录状态过期");
+            return unauthorizedResponse(exchange, "登录状态已过期");
         }
 
         // 6. 获取用户敏感信息进行身份判断
