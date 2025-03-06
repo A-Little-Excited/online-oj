@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 public class TableDataInfo {
 
-    private long total;        // 数据总数
+    private long total;        // 总记录数
 
     private List<?> data;      // 当前页的数据
 

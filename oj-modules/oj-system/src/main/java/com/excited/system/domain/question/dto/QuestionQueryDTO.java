@@ -1,20 +1,17 @@
 package com.excited.system.domain.question.dto;
 
+import com.excited.common.core.domain.dto.PageQueryDTO;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class QuestionQueryDTO {
+public class QuestionQueryDTO extends PageQueryDTO {
 
+    @Schema(description = "题目标题")
     private String title;
 
+    @Schema(description = "题目难度")
     private Integer difficulty;
-
-    /**
-     * 当前端没有指定时, 默认为请求第 1 页数据, 单页数据量为 10
-     */
-    private Integer pageSize = 10;  // 单页数据量, 必要参数
-
-    private Integer pageNum = 1;    // 当前页数
 }

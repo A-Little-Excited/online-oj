@@ -1,4 +1,4 @@
-package com.excited.system.domain.sysUser.dto;
+package com.excited.system.test.domain;
 
 import jakarta.validation.constraints.*;
 import lombok.Getter;

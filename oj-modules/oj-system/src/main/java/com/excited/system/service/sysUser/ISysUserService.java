@@ -1,8 +1,8 @@
-package com.excited.system.service;
+package com.excited.system.service.sysUser;
 
 import com.excited.common.core.domain.entity.R;
 import com.excited.common.core.domain.vo.LoginUserVO;
-import com.excited.system.domain.sysUser.dto.SysUserSaveDTO;
+import com.excited.system.domain.sysUser.dto.SysUserAddDTO;
 
 public interface ISysUserService {
 
@@ -12,5 +12,5 @@ public interface ISysUserService {
 
     R<LoginUserVO> info(String token);
 
-    int add(SysUserSaveDTO sysUserSaveDTO);
+    int add(SysUserAddDTO sysUserAddDTO);
 }

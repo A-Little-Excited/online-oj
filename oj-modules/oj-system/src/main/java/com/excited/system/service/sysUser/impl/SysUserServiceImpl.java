@@ -1,4 +1,4 @@
-package com.excited.system.service.impl;
+package com.excited.system.service.sysUser.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
@@ -12,9 +12,9 @@ import com.excited.common.core.enums.UserIdentity;
 import com.excited.common.security.exception.ServiceException;
 import com.excited.common.security.service.JwtService;
 import com.excited.system.domain.sysUser.entity.SysUser;
-import com.excited.system.domain.sysUser.dto.SysUserSaveDTO;
-import com.excited.system.mapper.SysUserMapper;
-import com.excited.system.service.ISysUserService;
+import com.excited.system.domain.sysUser.dto.SysUserAddDTO;
+import com.excited.system.mapper.sysUser.SysUserMapper;
+import com.excited.system.service.sysUser.ISysUserService;
 import com.excited.system.utils.BCryptUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -80,17 +80,17 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     @Override
-    public int add(SysUserSaveDTO sysUserSaveDTO) {
+    public int add(SysUserAddDTO sysUserAddDTO) {
         // 先判断数据库中是否存在相同用户名的管理员
         List<SysUser> sysUserList = sysUserMapper.selectList(new LambdaQueryWrapper<SysUser>()
-                .eq(SysUser::getUserAccount, sysUserSaveDTO.getUserAccount()));
+                .eq(SysUser::getUserAccount, sysUserAddDTO.getUserAccount()));
         if (CollectionUtil.isNotEmpty(sysUserList)) {
             throw new ServiceException(ResultCode.FAILED_USER_EXISTS);
         }
 
         SysUser sysUser = new SysUser();
-        sysUser.setUserAccount(sysUserSaveDTO.getUserAccount());
-        sysUser.setPassword(BCryptUtils.encryptPassword(sysUserSaveDTO.getPassword()));
+        sysUser.setUserAccount(sysUserAddDTO.getUserAccount());
+        sysUser.setPassword(BCryptUtils.encryptPassword(sysUserAddDTO.getPassword()));
         return sysUserMapper.insert(sysUser);
     }
 }
