@@ -3,17 +3,17 @@ package com.excited.system.service.question.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.excited.common.core.domain.entity.TableDataInfo;
 import com.excited.common.core.enums.ResultCode;
 import com.excited.common.security.exception.ServiceException;
 import com.excited.system.domain.question.dto.QuestionAddDTO;
+import com.excited.system.domain.question.dto.QuestionEditDTO;
 import com.excited.system.domain.question.dto.QuestionQueryDTO;
 import com.excited.system.domain.question.entity.Question;
+import com.excited.system.domain.question.vo.QuestionDetailVO;
 import com.excited.system.domain.question.vo.QuestionVO;
 import com.excited.system.mapper.question.QuestionMapper;
 import com.excited.system.service.question.IQuestionService;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,5 +46,48 @@ public class QuestionServiceImpl implements IQuestionService {
         // 将 questionAddDTO 中的属性复制到 question 中
         BeanUtil.copyProperties(questionAddDTO, question);
         return questionMapper.insert(question);
+    }
+
+    @Override
+    public QuestionDetailVO detail(Long questionId) {
+        Question question = queryQuestionById(questionId);
+        QuestionDetailVO questionDetailVO = new QuestionDetailVO();
+        BeanUtil.copyProperties(question, questionDetailVO);
+        return questionDetailVO;
+    }
+
+    @Override
+    public int edit(QuestionEditDTO questionEditDTO) {
+        // 先将原本的题目信息查询出来
+        Question question = queryQuestionById(questionEditDTO.getQuestionId());
+        // 再将新的题目信息逐一进 行赋值
+        question.setTitle(questionEditDTO.getTitle());
+        question.setContent(questionEditDTO.getContent());
+        question.setDifficulty(questionEditDTO.getDifficulty());
+        question.setTimeLimit(questionEditDTO.getTimeLimit());
+        question.setSpaceLimit(questionEditDTO.getSpaceLimit());
+        question.setQuestionCase(questionEditDTO.getQuestionCase());
+        question.setDefaultCode(questionEditDTO.getDefaultCode());
+        question.setMainFunc(questionEditDTO.getMainFunc());
+        // 更新到数据库
+        return questionMapper.updateById(question);
+    }
+
+    @Override
+    public int delete(Long questionId) {
+        // 需要查询题目是否存在
+        Question question = questionMapper.selectById(questionId);
+        if (question == null) {
+            throw new ServiceException(ResultCode.FAILED_NOT_EXISTS);
+        }
+        return questionMapper.deleteById(questionId);
+    }
+
+    private Question queryQuestionById(Long questionId) {
+        Question question = questionMapper.selectById(questionId);
+        if (question == null) {
+            throw new ServiceException(ResultCode.FAILED_NOT_EXISTS);
+        }
+        return question;
     }
 }

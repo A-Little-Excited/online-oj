@@ -4,7 +4,9 @@ import com.excited.common.core.controller.BaseController;
 import com.excited.common.core.domain.entity.R;
 import com.excited.common.core.domain.entity.TableDataInfo;
 import com.excited.system.domain.question.dto.QuestionAddDTO;
+import com.excited.system.domain.question.dto.QuestionEditDTO;
 import com.excited.system.domain.question.dto.QuestionQueryDTO;
+import com.excited.system.domain.question.vo.QuestionDetailVO;
 import com.excited.system.service.question.IQuestionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -15,8 +17,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequestMapping("/question")
 @RestController
@@ -46,5 +46,34 @@ public class QuestionController extends BaseController {
     @PostMapping("/add")
     public R<Void> add(@Validated @RequestBody QuestionAddDTO questionAddDTO) {
         return toR(questionService.add(questionAddDTO));
+    }
+
+    @Operation(summary = "查询题目详情", description = "根据所提供的 questionId 查询题目详情")
+    @ApiResponse(responseCode = "1000", description = "操作成功")
+    @ApiResponse(responseCode = "2000", description = "服务繁忙, 请稍后重试")
+    @ApiResponse(responseCode = "3003", description = "资源不存在")
+    @Parameters(value = {
+            @Parameter(name = "questionId", in = ParameterIn.QUERY, description = "题目Id")
+    })
+    @GetMapping("/detail")
+    public R<QuestionDetailVO> detail(Long questionId) {
+        return R.ok(questionService.detail(questionId));
+    }
+
+    @Operation(summary = "查询题目详情", description = "根据所提供的 questionId 查询题目详情")
+    @ApiResponse(responseCode = "1000", description = "操作成功")
+    @ApiResponse(responseCode = "2000", description = "服务繁忙, 请稍后重试")
+    @ApiResponse(responseCode = "3003", description = "资源不存在")
+    @Parameters(value = {
+            @Parameter(name = "questionEditDTO", description = "编辑题目信息, 请求体参数")
+    })
+    @PutMapping("/edit")
+    public R<Void> edit(@RequestBody QuestionEditDTO questionEditDTO) {
+        return toR(questionService.edit(questionEditDTO));
+    }
+
+    @DeleteMapping("/delete")
+    public R<Void> delete(Long questionId) {
+        return toR(questionService.delete(questionId));
     }
 }
