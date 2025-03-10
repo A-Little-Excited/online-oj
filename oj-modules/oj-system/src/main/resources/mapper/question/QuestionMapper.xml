@@ -16,10 +16,10 @@
         on
             tq.create_by = ts.user_id
         <where>
-            <if test="difficulty != null ">
+            <if test="difficulty != null">
                 AND difficulty = #{difficulty}
             </if>
-            <if test="title != null">
+            <if test="title != null and title != ''">
                 AND title LIKE CONCAT('%', #{title}, '%')
             </if>
         </where>

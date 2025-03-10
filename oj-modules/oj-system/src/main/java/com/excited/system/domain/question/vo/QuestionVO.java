@@ -23,6 +23,6 @@ public class QuestionVO {
     private String createName;
 
     // 将日期转化为特定格式的字符串, 前端展示更加优雅
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm::ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 }
