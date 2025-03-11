@@ -4,8 +4,6 @@ import com.excited.common.core.domain.dto.PageQueryDTO;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
 public class ExamQueryDTO extends PageQueryDTO {
