@@ -26,8 +26,11 @@ public class JwtInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = getToken(request);
-        jwtService.extendToken(token, secret);
+        if (StrUtil.isEmpty(token)) {
+            return true;
+        }
 
+        jwtService.extendToken(token, secret);
         return true;
     }
 

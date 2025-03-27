@@ -115,6 +115,16 @@ public class RedisService {
         return JSON.parseObject(String.valueOf(t), clazz);
     }
 
+    /**
+     * 自增 +1
+     *
+     * @param key 缓存的键
+     * @return 自增后的结果
+     */
+    public Long increment(final String key) {
+        return redisTemplate.opsForValue().increment(key);
+    }
+
     // *************** 操作list结构 ****************
 
     /**

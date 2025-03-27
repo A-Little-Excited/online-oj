@@ -1,4 +1,4 @@
-package com.excited.system.mapper;
+package com.excited.system.mapper.exam;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.excited.system.domain.exam.entity.ExamQuestion;

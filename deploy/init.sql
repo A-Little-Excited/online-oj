@@ -54,3 +54,23 @@ create table if not exists tb_exam_question (
     update_time datetime comment '修改时间',
     primary key (exam_question_id)
 );
+
+create table if not exists tb_user(
+    user_id bigint unsigned not null comment '用户id',
+    sex tinyint comment '性别, 1-男, 2-女',
+    head_image varchar(100) comment '头像',
+    nick_name varchar(20) comment '用户昵称',
+    phone char(11) not null comment '电话号码',
+    code char(6) comment '验证码',
+    email varchar(20) comment '邮箱',
+    wechat varchar(20) comment '微信',
+    school_name varchar(20) comment '学校',
+    major_name varchar(20) comment '专业',
+    introduce varchar(100) comment '个人介绍',
+    status tinyint not null comment '用户状态, 0-正常, 1-拉黑',
+    create_by bigint unsigned not null comment '创建人',
+    create_time datetime not null comment '创建时间',
+    update_by bigint unsigned comment '修改人',
+    update_time datetime comment '修改时间',
+    primary key (user_id)
+);

@@ -13,7 +13,7 @@ import com.excited.system.domain.exam.entity.Exam;
 import com.excited.system.domain.exam.entity.ExamQuestion;
 import com.excited.system.domain.exam.vo.ExamVO;
 import com.excited.system.domain.question.entity.Question;
-import com.excited.system.mapper.ExamQuestionMapper;
+import com.excited.system.mapper.exam.ExamQuestionMapper;
 import com.excited.system.mapper.exam.ExamMapper;
 import com.excited.system.mapper.question.QuestionMapper;
 import com.excited.system.service.exam.IExamService;
@@ -45,7 +45,7 @@ public class ExamServiceImpl extends ServiceImpl<ExamQuestionMapper, ExamQuestio
     }
 
     @Override
-    public int add(ExamAddDTO examAddDTO) {
+    public String add(ExamAddDTO examAddDTO) {
         List<Exam> examList = examMapper.selectList(new LambdaQueryWrapper<Exam>()
                 .eq(Exam::getTitle, examAddDTO.getTitle()));
         // 不允许添加重复标题的竞赛
@@ -63,7 +63,11 @@ public class ExamServiceImpl extends ServiceImpl<ExamQuestionMapper, ExamQuestio
 
         Exam exam = new Exam();
         BeanUtil.copyProperties(examAddDTO, exam);
-        return examMapper.insert(exam);
+        examMapper.insert(exam);
+
+        // 由于前端需要接收 examId, 因此此处进行返回
+        // 并且需要转换为字符串类型进行返回, 以防 examId 过长导致前端发生数据截断
+        return exam.getExamId().toString();
     }
 
     @Override
