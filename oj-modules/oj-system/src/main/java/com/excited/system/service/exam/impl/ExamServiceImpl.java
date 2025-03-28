@@ -148,6 +148,18 @@ public class ExamServiceImpl extends ServiceImpl<ExamQuestionMapper, ExamQuestio
         return examMapper.updateById(exam);
     }
 
+    @Override
+    public int delete(Long examId) {
+        // 先判断竞赛是否存在
+        Exam exam = getExam(examId);
+        // 再校验该竞赛是否已开赛
+        checkExamStarted(exam);
+        // 删除竞赛相关的题目, 即使该竞赛不包含题目也不影响
+        examQuestionMapper.delete(new LambdaQueryWrapper<ExamQuestion>()
+                .eq(ExamQuestion::getExamId, examId));
+        return examMapper.deleteById(examId);
+    }
+
     private void checkExamSaveParams(ExamAddDTO examSaveDTO, Long examId) {
         // 不允许添加重复标题的竞赛
         List<Exam> examList = examMapper.selectList(new LambdaQueryWrapper<Exam>()
