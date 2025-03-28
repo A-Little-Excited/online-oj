@@ -36,11 +36,10 @@ public enum ResultCode {
     FAILED_INVALID_CODE (3109, "验证码已失效"),
     FAILED_ERROR_CODE (3108, "验证码错误"),
 
-    EXAM_START_TIME_BEFORE_CURRENT_TIME(3201, "竞赛开始时间不能早于当前时间"),
-    EXAM_START_TIME_AFTER_END_TIME(3202, "竞赛开始时间不能晚于结束时间"),
-
-    EXAM_NOT_EXISTS(3203, "竞赛不存在"),
-    EXAM_QUESTION_NOT_EXISTS(3204, "竞赛中包含不存在的题目");
+    EXAM_START_TIME_BEFORE_CURRENT_TIME (3201, "竞赛开始时间不能早于当前时间"),
+    EXAM_START_TIME_AFTER_END_TIME (3202, "竞赛开始时间不能晚于结束时间"),
+    EXAM_QUESTION_NOT_EXISTS (3204, "竞赛中包含不存在的题目"),
+    EXAM_STARTED (3205, "竞赛已开赛, 无法操作");
 
     private int code;
 

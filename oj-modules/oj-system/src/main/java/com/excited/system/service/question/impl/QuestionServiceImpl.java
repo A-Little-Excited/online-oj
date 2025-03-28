@@ -2,7 +2,9 @@ package com.excited.system.service.question.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.excited.common.core.constants.Constants;
 import com.excited.common.core.enums.ResultCode;
 import com.excited.common.security.exception.ServiceException;
 import com.excited.system.domain.question.dto.QuestionAddDTO;
@@ -17,7 +19,10 @@ import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionServiceImpl implements IQuestionService {
@@ -27,6 +32,19 @@ public class QuestionServiceImpl implements IQuestionService {
 
     @Override
     public List<QuestionVO> list(QuestionQueryDTO questionQueryDTO) {
+        // 获取被排除的 Id 集合, 如果为空直接跳过, 非空再进行处理
+        String excludeIdStr = questionQueryDTO.getExcludeIdStr();
+        if (StrUtil.isNotEmpty(excludeIdStr)) {
+            // 先根据分隔符分割为多个 Id
+            String[] excludeIdArr = excludeIdStr.split(Constants.SPLIT_SEM);
+            // 转化为元素为 Long 的 Set 集合, 完成去重
+            Set<Long> excludeIdSet = Arrays.stream(excludeIdArr)
+                    .map(Long::valueOf)
+                    .collect(Collectors.toSet());
+
+            questionQueryDTO.setExcludeIdSet(excludeIdSet);
+        }
+
         PageHelper.startPage(questionQueryDTO.getPageNum(), questionQueryDTO.getPageSize());
         return questionMapper.selectQuestionList(questionQueryDTO);
     }
