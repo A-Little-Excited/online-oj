@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.excited.common.core.constants.Constants;
 import com.excited.common.core.enums.ResultCode;
 import com.excited.common.security.exception.ServiceException;
 import com.excited.system.domain.exam.dto.ExamEditDTO;
@@ -158,6 +159,32 @@ public class ExamServiceImpl extends ServiceImpl<ExamQuestionMapper, ExamQuestio
         examQuestionMapper.delete(new LambdaQueryWrapper<ExamQuestion>()
                 .eq(ExamQuestion::getExamId, examId));
         return examMapper.deleteById(examId);
+    }
+
+    @Override
+    public int publish(Long examId) {
+        // 校验竞赛是否存在
+        Exam exam = getExam(examId);
+        // 校验竞赛中是否包含题目
+        Long count = examQuestionMapper.selectCount(new LambdaQueryWrapper<ExamQuestion>()
+                .eq(ExamQuestion::getExamId, examId));
+        if (count == null || count <= 0) {
+            throw new ServiceException(ResultCode.EXAM_WITHOUT_QUESTION);
+        }
+
+        exam.setStatus(Constants.TRUE);
+        return examMapper.updateById(exam);
+    }
+
+    @Override
+    public int cancelPublish(Long examId) {
+        // 校验竞赛是否存在
+        Exam exam = getExam(examId);
+        // 校验竞赛是否开赛
+        checkExamStarted(exam);
+
+        exam.setStatus(Constants.FALSE);
+        return examMapper.updateById(exam);
     }
 
     private void checkExamSaveParams(ExamAddDTO examSaveDTO, Long examId) {
