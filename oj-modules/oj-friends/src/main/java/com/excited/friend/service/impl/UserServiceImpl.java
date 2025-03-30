@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.excited.common.core.constants.CacheConstants;
 import com.excited.common.core.constants.Constants;
+import com.excited.common.core.constants.HttpConstants;
 import com.excited.common.core.enums.ResultCode;
 import com.excited.common.core.enums.UserIdentity;
 import com.excited.common.core.enums.UserStatus;
@@ -128,6 +129,15 @@ public class UserServiceImpl implements IUserService {
         // 为用户生成 token
         return jwtService.createToken(user.getUserId(), secret,
                 UserIdentity.ORDINARY.getValue(), user.getNickName());
+    }
+
+    @Override
+    public boolean logout(String token) {
+        // 如果前端存放 Jwt 时设置了前缀, 则需要裁剪掉前缀
+        if (StrUtil.isNotEmpty(token) && token.startsWith(HttpConstants.JWT_PREFIX)) {
+            token = token.replaceFirst(HttpConstants.JWT_PREFIX, StrUtil.EMPTY);
+        }
+        return jwtService.deleteLoginUser(token, secret);
     }
 
     private void checkCode(String phone, String code) {

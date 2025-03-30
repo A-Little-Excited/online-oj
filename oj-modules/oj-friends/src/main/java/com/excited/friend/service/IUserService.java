@@ -7,4 +7,6 @@ public interface IUserService {
     boolean sendCode(UserGetCodeDTO userGetCodeDTO);
 
     String codeLogin(UserLoginDTO userLoginDTO);
+
+    boolean logout(String token);
 }

@@ -1,15 +1,13 @@
 package com.excited.friend.controller;
 
+import com.excited.common.core.constants.HttpConstants;
 import com.excited.common.core.controller.BaseController;
 import com.excited.common.core.domain.entity.R;
 import com.excited.friend.domain.dto.UserGetCodeDTO;
 import com.excited.friend.domain.dto.UserLoginDTO;
 import com.excited.friend.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
@@ -28,5 +26,10 @@ public class UserController extends BaseController {
     @PostMapping("/code/login")
     public R<String> codeLogin(@RequestBody UserLoginDTO userLoginDTO) {
         return R.ok(userService.codeLogin(userLoginDTO));
+    }
+
+    @DeleteMapping("/logout")
+    public R<Void> logout(@RequestHeader(HttpConstants.AUTHORIZATION) String token) {
+        return toR(userService.logout(token));
     }
 }
