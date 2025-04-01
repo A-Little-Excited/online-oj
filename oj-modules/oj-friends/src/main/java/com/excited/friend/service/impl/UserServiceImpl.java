@@ -6,6 +6,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.excited.common.core.constants.CacheConstants;
 import com.excited.common.core.constants.Constants;
 import com.excited.common.core.constants.HttpConstants;
+import com.excited.common.core.domain.entity.LoginUser;
+import com.excited.common.core.domain.entity.R;
+import com.excited.common.core.domain.vo.LoginUserVO;
 import com.excited.common.core.enums.ResultCode;
 import com.excited.common.core.enums.UserIdentity;
 import com.excited.common.core.enums.UserStatus;
@@ -128,7 +131,7 @@ public class UserServiceImpl implements IUserService {
         // 老用户直接执行登录
         // 为用户生成 token
         return jwtService.createToken(user.getUserId(), secret,
-                UserIdentity.ORDINARY.getValue(), user.getNickName());
+                UserIdentity.ORDINARY.getValue(), user.getNickName(), user.getHeadImage());
     }
 
     @Override
@@ -138,6 +141,23 @@ public class UserServiceImpl implements IUserService {
             token = token.replaceFirst(HttpConstants.JWT_PREFIX, StrUtil.EMPTY);
         }
         return jwtService.deleteLoginUser(token, secret);
+    }
+
+    @Override
+    public R<LoginUserVO> info(String token) {
+        // 如果前端存放 Jwt 时设置了前缀, 则需要裁剪掉前缀
+        if (StrUtil.isNotEmpty(token) && token.startsWith(HttpConstants.JWT_PREFIX)) {
+            token = token.replaceFirst(HttpConstants.JWT_PREFIX, StrUtil.EMPTY);
+        }
+
+        LoginUser loginUser = jwtService.getLoginUser(token, secret);
+        if (loginUser == null) {
+            return R.fail();
+        }
+        LoginUserVO loginUserVO = new LoginUserVO();
+        loginUserVO.setNickName(loginUser.getNickName());
+        loginUserVO.setHeadImage(loginUser.getHeadImage());
+        return R.ok(loginUserVO);
     }
 
     private void checkCode(String phone, String code) {

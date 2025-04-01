@@ -30,7 +30,7 @@ public class JwtService {
      * @param identity 用户身份
      * @return 生产的 token
      */
-    public String createToken(Long userId, String secret, Integer identity, String nickName) {
+    public String createToken(Long userId, String secret, Integer identity, String nickName, String headImage) {
         // 1. 登录成功之后, 生成 token 返回给客户端
         // token 的载荷部分存储 用户id 和 存储敏感信息所需要的 uuid
         String uuid = UUID.fastUUID().toString();
@@ -47,6 +47,7 @@ public class JwtService {
         LoginUser loginUser = new LoginUser();
         loginUser.setIdentity(identity);
         loginUser.setNickName(nickName);
+        loginUser.setHeadImage(headImage);
         // Redis 进行存储
         redisService.setCacheObject(redisKey, loginUser, CacheConstants.EXP, TimeUnit.MINUTES);
 

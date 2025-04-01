@@ -3,6 +3,7 @@ package com.excited.friend.controller;
 import com.excited.common.core.constants.HttpConstants;
 import com.excited.common.core.controller.BaseController;
 import com.excited.common.core.domain.entity.R;
+import com.excited.common.core.domain.vo.LoginUserVO;
 import com.excited.friend.domain.dto.UserGetCodeDTO;
 import com.excited.friend.domain.dto.UserLoginDTO;
 import com.excited.friend.service.IUserService;
@@ -31,5 +32,10 @@ public class UserController extends BaseController {
     @DeleteMapping("/logout")
     public R<Void> logout(@RequestHeader(HttpConstants.AUTHORIZATION) String token) {
         return toR(userService.logout(token));
+    }
+
+    @GetMapping("/info")
+    public R<LoginUserVO> info(@RequestHeader(HttpConstants.AUTHORIZATION) String token) {
+        return userService.info(token);
     }
 }

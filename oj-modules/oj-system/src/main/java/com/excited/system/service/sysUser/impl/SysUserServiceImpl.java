@@ -51,7 +51,7 @@ public class SysUserServiceImpl implements ISysUserService {
         }
 
         return R.ok(jwtService.createToken(sysUser.getUserId(), secret,
-                UserIdentity.ADMIN.getValue(), sysUser.getNickName()));
+                UserIdentity.ADMIN.getValue(), sysUser.getNickName(), null));
     }
 
     @Override
