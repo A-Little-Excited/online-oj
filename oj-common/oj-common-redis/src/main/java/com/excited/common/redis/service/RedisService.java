@@ -116,6 +116,31 @@ public class RedisService {
     }
 
     /**
+     * 批量获取
+     * @param keyList 多个键
+     * @return 获取到的多个数据
+     */
+    public <T> List<T> multiGet(final List<String> keyList, Class<T> clazz) {
+        List list = redisTemplate.opsForValue().multiGet(keyList);
+        if (list == null || list.size() <= 0) {
+            return null;
+        }
+        List<T> result = new ArrayList<>();
+        for (Object o : list) {
+            result.add(JSON.parseObject(String.valueOf(o), clazz));
+        }
+        return result;
+    }
+
+    /**
+     * 批量存储
+     * @param map 多个键值对
+     */
+    public <K, V> void multiSet(Map<? extends K, ? extends V> map) {
+        redisTemplate.opsForValue().multiSet(map);
+    }
+
+    /**
      * 自增 +1
      *
      * @param key 缓存的键

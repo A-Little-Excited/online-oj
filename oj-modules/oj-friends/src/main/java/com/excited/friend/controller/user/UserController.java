@@ -1,12 +1,12 @@
-package com.excited.friend.controller;
+package com.excited.friend.controller.user;
 
 import com.excited.common.core.constants.HttpConstants;
 import com.excited.common.core.controller.BaseController;
 import com.excited.common.core.domain.entity.R;
 import com.excited.common.core.domain.vo.LoginUserVO;
-import com.excited.friend.domain.dto.UserGetCodeDTO;
-import com.excited.friend.domain.dto.UserLoginDTO;
-import com.excited.friend.service.IUserService;
+import com.excited.friend.domain.user.dto.UserGetCodeDTO;
+import com.excited.friend.domain.user.dto.UserLoginDTO;
+import com.excited.friend.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

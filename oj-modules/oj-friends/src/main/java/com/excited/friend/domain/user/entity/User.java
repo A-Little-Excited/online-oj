@@ -1,4 +1,4 @@
-package com.excited.friend.domain.entity;
+package com.excited.friend.domain.user.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

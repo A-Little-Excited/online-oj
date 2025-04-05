@@ -17,6 +17,7 @@ import com.excited.system.domain.exam.vo.ExamDetailVO;
 import com.excited.system.domain.exam.vo.ExamVO;
 import com.excited.system.domain.question.entity.Question;
 import com.excited.system.domain.question.vo.QuestionVO;
+import com.excited.system.manager.ExamCacheManager;
 import com.excited.system.mapper.exam.ExamQuestionMapper;
 import com.excited.system.mapper.exam.ExamMapper;
 import com.excited.system.mapper.question.QuestionMapper;
@@ -41,6 +42,9 @@ public class ExamServiceImpl extends ServiceImpl<ExamQuestionMapper, ExamQuestio
 
     @Autowired
     private ExamQuestionMapper examQuestionMapper;
+
+    @Autowired
+    private ExamCacheManager examCacheManager;
 
     @Override
     public List<ExamVO> list(ExamQueryDTO examQueryDTO) {
@@ -165,6 +169,10 @@ public class ExamServiceImpl extends ServiceImpl<ExamQuestionMapper, ExamQuestio
     public int publish(Long examId) {
         // 校验竞赛是否存在
         Exam exam = getExam(examId);
+        // 限制不能发布一个已完赛的竞赛
+        if (exam.getEndTime().isBefore(LocalDateTime.now())) {
+            throw new ServiceException(ResultCode.EXAM_FINISHED);
+        }
         // 校验竞赛中是否包含题目
         Long count = examQuestionMapper.selectCount(new LambdaQueryWrapper<ExamQuestion>()
                 .eq(ExamQuestion::getExamId, examId));
@@ -173,6 +181,10 @@ public class ExamServiceImpl extends ServiceImpl<ExamQuestionMapper, ExamQuestio
         }
 
         exam.setStatus(Constants.TRUE);
+
+        // 需要将已发布竞赛存储到 Redis 中
+        examCacheManager.addCache(exam);
+
         return examMapper.updateById(exam);
     }
 
@@ -182,8 +194,16 @@ public class ExamServiceImpl extends ServiceImpl<ExamQuestionMapper, ExamQuestio
         Exam exam = getExam(examId);
         // 校验竞赛是否开赛
         checkExamStarted(exam);
+        // 限制不能撤销发布一个已完赛的竞赛
+        if (exam.getEndTime().isBefore(LocalDateTime.now())) {
+            throw new ServiceException(ResultCode.EXAM_FINISHED);
+        }
 
         exam.setStatus(Constants.FALSE);
+
+        // 需要将撤销发布竞赛从 Redis 中删除
+        examCacheManager.deleteCache(examId);
+
         return examMapper.updateById(exam);
     }
 

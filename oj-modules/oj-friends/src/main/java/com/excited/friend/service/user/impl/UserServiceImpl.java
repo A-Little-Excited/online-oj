@@ -1,4 +1,4 @@
-package com.excited.friend.service.impl;
+package com.excited.friend.service.user.impl;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
@@ -16,11 +16,11 @@ import com.excited.common.message.service.AliSmsService;
 import com.excited.common.redis.service.RedisService;
 import com.excited.common.security.exception.ServiceException;
 import com.excited.common.security.service.JwtService;
-import com.excited.friend.domain.dto.UserGetCodeDTO;
-import com.excited.friend.domain.dto.UserLoginDTO;
-import com.excited.friend.domain.entity.User;
-import com.excited.friend.mapper.UserMapper;
-import com.excited.friend.service.IUserService;
+import com.excited.friend.domain.user.dto.UserGetCodeDTO;
+import com.excited.friend.domain.user.dto.UserLoginDTO;
+import com.excited.friend.domain.user.entity.User;
+import com.excited.friend.mapper.user.UserMapper;
+import com.excited.friend.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

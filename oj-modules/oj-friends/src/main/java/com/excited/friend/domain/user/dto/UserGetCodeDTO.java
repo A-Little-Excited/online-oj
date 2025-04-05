@@ -1,4 +1,4 @@
-package com.excited.friend.domain.dto;
+package com.excited.friend.domain.user.dto;
 
 import lombok.Getter;
 import lombok.Setter;
