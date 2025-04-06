@@ -74,7 +74,7 @@ public class ExamCacheManager {
             //查询"历史"的竞赛列表
             examList = examMapper.selectList(new LambdaQueryWrapper<Exam>()
                     .select(Exam::getExamId, Exam::getTitle, Exam::getStartTime, Exam::getEndTime)
-                    .le(Exam::getEndTime, LocalDateTime.now())    // 历史竞赛即是结束时间小于当前时间
+                    .le(Exam::getEndTime, LocalDateTime.now())    // 历史竞赛即是结束时间小于等于当前时间
                     .eq(Exam::getStatus, Constants.TRUE)
                     .orderByDesc(Exam::getCreateTime));
         }
@@ -86,9 +86,10 @@ public class ExamCacheManager {
         Map<String, Exam> examMap = new HashMap<>();
         List<Long> examIdList = new ArrayList<>();
         for (Exam exam : examList) {
-            // 将多个竞赛信息组装为多个键值对
-            examMap.put(getDetailKey(exam.getExamId()), exam);
-            // 将多个 examId 存储到 List 中
+            // 存储竞赛基本信息需要 key 和 value, 因此此处将多个竞赛信息组装为多个键值对
+            examMap.put(getExamDetailKey(exam.getExamId()), exam);
+            // 存储竞赛列表时, 需要 key 和 存储了多个 examId 的 List
+            // 因此此处将多个 examId 存储到 List 中
             examIdList.add(exam.getExamId());
         }
 
@@ -113,6 +114,11 @@ public class ExamCacheManager {
         return examMapper.selectExamList(examQueryDTO);
     }
 
+    /**
+     * 根据多个 examId 从 Redis 中批量获取竞赛基本信息
+     * @param examIdList 多个 examId 集合
+     * @return 多个竞赛基本信息
+     */
     private List<ExamVO> assembleExamVOList(List<Long> examIdList) {
         if (CollectionUtil.isEmpty(examIdList)) {
             // 如果 Redis 中该类型竞赛列表包含的竞赛 Id 为空, 那么说明 Redis 中的数据有问题
@@ -120,12 +126,13 @@ public class ExamCacheManager {
             return null;
         }
         // 将所有竞赛对应的"竞赛基本信息" key 组装起来
-        List<String> detailKeyList = new ArrayList<>();
+        // 竞赛基本信息 key ==> e:d:examId
+        List<String> examDetailKeyList = new ArrayList<>();
         for (Long examId : examIdList) {
-            detailKeyList.add(getDetailKey(examId));
+            examDetailKeyList.add(getExamDetailKey(examId));
         }
         // 使用组装之后的所有 key 进行批量查询
-        List<ExamVO> examVOList = redisService.multiGet(detailKeyList, ExamVO.class);
+        List<ExamVO> examVOList = redisService.multiGet(examDetailKeyList, ExamVO.class);
         // 查询过程中可能存在某个竞赛对应的 key 查询不到竞赛基本信息, 导致 examVOList 存在 null 值
         // 调用以下方法排除 examVOList 中的值为 null 的元素
         CollUtil.removeNull(examVOList);
@@ -140,14 +147,14 @@ public class ExamCacheManager {
 
     private String getExamListKey(Integer examListType) {
         if (ExamListType.EXAM_TIME_LIST.getValue().equals(examListType)) {
-            return CacheConstants.CODE_TIMES_KEY_PREFIX;
+            return CacheConstants.EXAM_TIME_LIST_KEY_PREFIX;
         } else if (ExamListType.EXAM_HISTORY_LIST.getValue().equals(examListType)) {
             return CacheConstants.EXAM_HISTORY_LIST_KEY_PREFIX;
         }
         return "";
     }
 
-    private String getDetailKey(Long examId) {
+    private String getExamDetailKey(Long examId) {
         return CacheConstants.EXAM_DETAIL_KEY_PREFIX + examId;
     }
 }
