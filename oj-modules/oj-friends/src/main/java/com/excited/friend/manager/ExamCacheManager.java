@@ -147,9 +147,9 @@ public class ExamCacheManager {
 
     private String getExamListKey(Integer examListType) {
         if (ExamListType.EXAM_TIME_LIST.getValue().equals(examListType)) {
-            return CacheConstants.EXAM_TIME_LIST_KEY_PREFIX;
+            return CacheConstants.EXAM_TIME_LIST_KEY;
         } else if (ExamListType.EXAM_HISTORY_LIST.getValue().equals(examListType)) {
-            return CacheConstants.EXAM_HISTORY_LIST_KEY_PREFIX;
+            return CacheConstants.EXAM_HISTORY_LIST_KEY;
         }
         return "";
     }

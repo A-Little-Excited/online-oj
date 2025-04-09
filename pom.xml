@@ -34,6 +34,7 @@
         <hutool-all.version>5.8.22</hutool-all.version>
         <pagehelper.version>2.0.0</pagehelper.version>
         <aliyun-dysmsapi20170525.version>3.1.1</aliyun-dysmsapi20170525.version>
+        <xxl-job.version>2.4.0</xxl-job.version>
         <oj-common-core.version>1.0-SNAPSHOT</oj-common-core.version>
         <oj-common-swagger.version>1.0-SNAPSHOT</oj-common-swagger.version>
         <oj-common-security.version>1.0-SNAPSHOT</oj-common-security.version>

@@ -20,9 +20,9 @@ public class CacheConstants {
     // 当过期时间小于 180min 时进行延长
     public static final long REFRESH_TIME = 180L;
 
-    public static final String EXAM_TIME_LIST_KEY_PREFIX = "e:t:l";
+    public static final String EXAM_TIME_LIST_KEY = "e:t:l";
 
-    public static final String EXAM_HISTORY_LIST_KEY_PREFIX = "e:h:l";
+    public static final String EXAM_HISTORY_LIST_KEY = "e:h:l";
 
     public static final String EXAM_DETAIL_KEY_PREFIX = "e:d:";
 }

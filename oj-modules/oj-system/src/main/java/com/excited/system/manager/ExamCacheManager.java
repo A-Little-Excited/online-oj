@@ -30,11 +30,11 @@ public class ExamCacheManager {
     }
 
     private String getExamTimeListKey() {
-        return CacheConstants.EXAM_TIME_LIST_KEY_PREFIX;
+        return CacheConstants.EXAM_TIME_LIST_KEY;
     }
 
     private String getExamHistoryListKey() {
-        return CacheConstants.EXAM_HISTORY_LIST_KEY_PREFIX;
+        return CacheConstants.EXAM_HISTORY_LIST_KEY;
     }
 
     private String getExamDetailKey(Long examId) {
